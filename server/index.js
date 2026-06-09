@@ -6,6 +6,7 @@ const morgan = require('morgan')
 
 const connectDb = require('./config/db')
 const handleError=require("./middleware/errorHandler");
+const {generalLimiter}=require("./middleware/rateLimiter");
 
 const app = express()
 
@@ -18,6 +19,8 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.use("/api",generalLimiter);
 
 app.get('/api/health', (req, res) => {
   return res.status(200).json({
