@@ -3,10 +3,12 @@ const express = require('express')
 const helmet = require('helmet')
 const cors = require('cors')
 const morgan = require('morgan')
+const cookieParser = require('cookie-parser')
 
 const connectDb = require('./config/db')
-const handleError=require("./middleware/errorHandler");
-const {generalLimiter}=require("./middleware/rateLimiter");
+const handleError = require('./middleware/errorHandler')
+const { generalLimiter } = require('./middleware/rateLimiter')
+const authRouter = require('./routes/authRoutes')
 
 const app = express()
 
@@ -20,7 +22,9 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.use("/api",generalLimiter);
+app.use(cookieParser())
+
+app.use('/api', generalLimiter)
 
 app.get('/api/health', (req, res) => {
   return res.status(200).json({
@@ -29,7 +33,9 @@ app.get('/api/health', (req, res) => {
   })
 })
 
-app.use(handleError);
+app.use('/api/auth', authRouter)
+
+app.use(handleError)
 
 const startServer = async () => {
   await connectDb()
