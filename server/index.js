@@ -5,6 +5,7 @@ const cors = require('cors')
 const morgan = require('morgan')
 
 const connectDb = require('./config/db')
+const handleError=require("./middleware/errorHandler");
 
 const app = express()
 
@@ -24,6 +25,8 @@ app.get('/api/health', (req, res) => {
     message: 'Server is running',
   })
 })
+
+app.use(handleError);
 
 const startServer = async () => {
   await connectDb()
