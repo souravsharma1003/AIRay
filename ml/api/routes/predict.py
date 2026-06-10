@@ -1,3 +1,5 @@
+import os
+import sys
 import io
 import cv2
 import base64
@@ -6,6 +8,16 @@ import torch
 
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from PIL import Image
+
+sys.path.append(
+    os.path.abspath(
+        os.path.join(
+            os.path.dirname(__file__),
+            "../src"
+        )
+    )
+)
+
 from model import FractureDetector
 from dataset import val_transforms
 from evaluate import generate_gradcam
