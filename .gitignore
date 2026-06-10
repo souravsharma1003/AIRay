@@ -7,3 +7,6 @@ __pycache__/
 models/*.pt
 ml/data/
 ml/models/
+venv/
+*.pt
+*.pth
