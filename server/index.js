@@ -9,6 +9,7 @@ const connectDb = require('./config/db')
 const handleError = require('./middleware/errorHandler')
 const { generalLimiter } = require('./middleware/rateLimiter')
 const authRouter = require('./routes/authRoutes')
+const scanRouter=require("./routes/scanRoutes");
 
 const app = express()
 
@@ -33,7 +34,8 @@ app.get('/api/health', (req, res) => {
   })
 })
 
-app.use('/api/auth', authRouter)
+app.use('/api/auth', authRouter);
+app.use("/api/scans",scanRouter);
 
 app.use(handleError)
 
