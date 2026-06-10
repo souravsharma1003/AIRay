@@ -8,8 +8,9 @@ const cookieParser = require('cookie-parser')
 const connectDb = require('./config/db')
 const handleError = require('./middleware/errorHandler')
 const { generalLimiter } = require('./middleware/rateLimiter')
-const authRouter = require('./routes/authRoutes')
+const authRouter = require('./routes/authRoutes');
 const scanRouter=require("./routes/scanRoutes");
+const adminRouter=require("./routes/adminRoutes");
 
 const app = express()
 
@@ -36,6 +37,7 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use("/api/scans",scanRouter);
+app.use("/api/admin",adminRouter);
 
 app.use(handleError)
 
